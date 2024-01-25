@@ -4,32 +4,43 @@ import "./styles.css";
 function App() {
   const [size, setSize] = useState("12");
   const [start, setStart] = useState(false);
+  function handleChange(e) {
+    setSize(e);
+    setStart(false);
+  }
   function handleStart() {
-    setStart(true);
+    setStart(!start);
   }
   return (
     <div className="app">
       <h1>Card Match</h1>
-      {start ? <Timer /> : null}
-      <SelectBoard size={size} onSelect={setSize} onStart={handleStart} />
+
+      <SelectBoard
+        size={size}
+        onChange={handleChange}
+        onStart={handleStart}
+        start={start}
+      />
       <Board size={size} />
+      {start ? <Timer /> : null}
     </div>
   );
 }
-function SelectBoard({ size, onSelect, onStart }) {
+function SelectBoard({ size, onChange, onStart, start }) {
   return (
     <div className="inputs">
       <label>Board Size:</label>
-      <select value={size} onChange={(e) => onSelect(Number(e.target.value))}>
+      <select value={size} onChange={(e) => onChange(Number(e.target.value))}>
         <option value="12">4x3</option>
         <option value="16">4x4</option>
         <option value="20">4x5</option>
       </select>
-      <button onClick={onStart}>Start</button>
+      <button onClick={onStart}>{start === true ? `Stop` : `Start`}</button>
     </div>
   );
 }
 function Timer() {
+  const start = 
   return <div className="inputs">00:00</div>;
 }
 function Board({ size }) {
